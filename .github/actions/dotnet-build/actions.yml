@@ -1,0 +1,119 @@
+name: 'dotnet build'
+description: 'Validate and publish Terraform artifacts'
+inputs:
+
+  tokenPrefix:
+    description: 'Token Prefix'
+    required: true
+    default: '%'
+
+  tokenSufix:
+    description: 'Token Sufix'
+    required: true
+    default: '%'
+
+  tokenFiles:
+    description: 'Token files replacement'
+    required: true
+    default: '["**/nuget.config"]'  
+
+  dotNetCoreVersion:
+    description: 'Dotnet sdk version to be installed'
+    required: false
+    default: 6.0.x
+
+  solutionName:
+    description: 'Dotnet Solution Name'
+    required: true
+
+  workingDirectory:
+    required: true
+    description: Working folder finished in /
+
+  nugetConfigFilePath:
+    description: 'Nuget File Name'
+    required: false
+    default: ''
+
+  buildConfiguration:
+    required: false
+    description: Build Configuration Release
+    default: Release
+
+  packageVersion:
+    required: false
+    description: PackageVersion
+    default: 'auto'
+  
+  isNugetPackage:
+    required: false
+    description: Is going to generated nuget package
+    default: 'false'
+
+  artifactName:
+    required: false
+    description: Artifact Name
+    default: 'nugetPackage'
+
+  artifactFiles:
+    required: false
+    description: Artifact files
+    default: '**/*.nupkg'
+
+runs:
+  using: composite
+  steps:
+
+    - name: Replace tokens
+      uses: cschleiden/replace-tokens@v1.2
+      with:
+        tokenPrefix: ${{ inputs.tokenPrefix }}
+        tokenSuffix: ${{ inputs.tokenSufix }}
+        files: ${{ inputs.tokenFiles }}
+
+    - uses: actions/setup-dotnet@v3
+      name: 'Use .Net SDK ${{ inputs.dotNetCoreVersion }}'
+      with:
+        dotnet-version: ${{ inputs.dotNetCoreVersion }}
+
+    - name: dotnet restore with Config File
+      if: ${{ inputs.nugetConfigFilePath != '' }}
+      shell: bash
+      run: dotnet restore ${{ inputs.solutionName }} --configfile {{ inputs.nugetConfigFilePath }}
+
+    - name: dotnet restore
+      if: ${{ inputs.nugetConfigFilePath == '' }}
+      shell: bash
+      run: dotnet restore ${{ inputs.solutionName }}
+
+    - name: dotnet build
+      shell: bash
+      run: dotnet build ${{ inputs.solutionName }} --configuration ${{ inputs.buildConfiguration }} --no-restore
+
+    - name: Auto-Generated Package Version
+      if: ${{ inputs.packageVersion == 'auto' }}
+      shell: bash
+      run: |
+          echo "BUILD_VERSION=2.0.${{ github.run_number }}" >> $GITHUB_ENV
+
+    - name: Manual Package Version
+      if: ${{ inputs.packageVersion != 'auto' }}
+      shell: bash
+      run: |
+          echo "BUILD_VERSION=${{ inputs.packageVersion }}" >> $GITHUB_ENV
+
+    - name: dotnet pack
+      if: ${{ inputs.isNugetPackage == 'true' }}
+      shell: bash
+      run: |
+            find $(git diff --name-only master... | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
+             
+# echo $(git diff --name-only $(git merge-base master HEAD) 
+         
+# find $(git diff --name-only $(git merge-base master HEAD) | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
+    - name: Upload NuGet package back to GitHub Packages
+      if: ${{ inputs.isNugetPackage == 'true' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.artifactName }}
+        path: ${{ inputs.artifactFiles }}

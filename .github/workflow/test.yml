@@ -1,0 +1,47 @@
+name: Shared Build 
+run-name: Deploy Shared Build by @${{ github.actor }} on 2.0.${{ github.run_number }}
+on:
+  push:
+    branches: [ 'mail' ]
+    paths: 
+      - 'shared/**'
+  pull_request:
+    branches: [ 'main' ]
+    paths: 
+      - 'shared/**'
+  workflow_dispatch:
+    paths: 
+      - 'shared//**'
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  deployments: read
+  id-token: none
+  issues: read
+  discussions: none
+  packages: write
+  pages: none
+  pull-requests: write
+  repository-projects: read
+  security-events: none
+  statuses: read
+
+env: 
+    solutionName: './shared/src/Ace.Shared.sln'
+    workingDirectory: './shared/'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: list
+        shell: bash
+        run: |
+              git diff --name-only main...
+                
+# | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
