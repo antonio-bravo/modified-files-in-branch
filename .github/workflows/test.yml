@@ -1,4 +1,4 @@
-name: Shared Build 
+name: Test
 run-name: Deploy Shared Build by @${{ github.actor }} on 2.0.${{ github.run_number }}
 on:
   push:
@@ -29,7 +29,6 @@ permissions:
   statuses: read
 
 env: 
-    solutionName: './shared/src/Ace.Shared.sln'
     workingDirectory: './shared/'
 
 jobs:
@@ -38,7 +37,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
+      - name: ls
+        shell: bash
+        run: |
+              ll -a
+
       - name: list
         shell: bash
         run: |
