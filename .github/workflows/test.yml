@@ -2,16 +2,10 @@ name: Test
 run-name: Deploy Shared Build by @${{ github.actor }} on 2.0.${{ github.run_number }}
 on:
   push:
-    branches: [ 'mail' ]
-    paths: 
-      - 'shared/**'
+    branches: [ 'main' ]
   pull_request:
     branches: [ 'main' ]
-    paths: 
-      - 'shared/**'
   workflow_dispatch:
-    paths: 
-      - 'shared//**'
 
 permissions:
   actions: read
@@ -37,15 +31,34 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: ls
         shell: bash
         run: |
               ls -a
 
+      # - name: Install git
+      #   run: sudo apt-get install -y git
+
       - name: list
         shell: bash
         run: |
-              git diff --name-only main...
+              echo "git diff --name-only $(git rev-parse --short origin/main)...github.event.pull_request.head.sha"
+              git diff --name-only $(git rev-parse --short origin/main)...${{ github.event.pull_request.head.sha }}
+
+              echo "git diff --name-only  $(git rev-parse --short origin/main)...HEAD"
+              git diff --name-only $(git rev-parse --short origin/main)...HEAD
+
+              echo "git diff --name-only  github.sha ...github.event.pull_request.head.sha"
+              git diff --name-only ${{ github.sha }}...${{ github.event.pull_request.head.sha }}
+
+              echo "sha HEAD"
+              git rev-parse --short HEAD
+
+              echo "sha main"
+              git rev-parse --short origin/main
                 
 # | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
+# --name-only main...HEAD
