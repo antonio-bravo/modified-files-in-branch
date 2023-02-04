@@ -2,16 +2,10 @@ name: Test
 run-name: Deploy Shared Build by @${{ github.actor }} on 2.0.${{ github.run_number }}
 on:
   push:
-    branches: [ 'mail' ]
-    paths: 
-      - 'shared/**'
+    branches: [ 'main' ]
   pull_request:
     branches: [ 'main' ]
-    paths: 
-      - 'shared/**'
   workflow_dispatch:
-    paths: 
-      - 'shared//**'
 
 permissions:
   actions: read
