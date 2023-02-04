@@ -39,12 +39,13 @@ jobs:
         run: |
               ls -a
 
-      - name: Install git
-        run: sudo apt-get install -y git
+      # - name: Install git
+      #   run: sudo apt-get install -y git
 
       - name: list
         shell: bash
         run: |
-              git diff --name-only main...HEAD
+              git diff --help 
                 
 # | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
+# --name-only main...HEAD
