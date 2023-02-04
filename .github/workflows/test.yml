@@ -48,6 +48,7 @@ jobs:
               git diff --name-only fef7b07...HEAD
               echo "sha HEAD"
               git rev-parse --short HEAD
+              
               echo "sha main"
               git rev-parse --short main
                 
