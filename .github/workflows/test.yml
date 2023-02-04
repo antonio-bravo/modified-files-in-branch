@@ -45,10 +45,10 @@ jobs:
       - name: list
         shell: bash
         run: |
-              git diff --name-only fef7b07...HEAD
+              git diff --name-only ${{ github.sha }}...${{ github.event.pull_request.head.sha }}
               echo "sha HEAD"
               git rev-parse --short HEAD
-              
+
               echo "sha main"
               git rev-parse --short main
                 
