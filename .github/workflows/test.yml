@@ -45,7 +45,15 @@ jobs:
       - name: list
         shell: bash
         run: |
+              echo "git diff --name-only $(git rev-parse --short origin/main)...github.event.pull_request.head.sha"
+              git diff --name-only $(git rev-parse --short origin/main)...${{ github.event.pull_request.head.sha }}
+
+              echo "git diff --name-only  $(git rev-parse --short origin/main)...HEAD"
+              git diff --name-only $(git rev-parse --short origin/main)...HEAD
+
+              echo "git diff --name-only  github.sha ...github.event.pull_request.head.sha"
               git diff --name-only ${{ github.sha }}...${{ github.event.pull_request.head.sha }}
+
               echo "sha HEAD"
               git rev-parse --short HEAD
 
