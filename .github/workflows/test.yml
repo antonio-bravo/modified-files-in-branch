@@ -39,6 +39,9 @@ jobs:
         run: |
               ls -a
 
+      - name: Install git
+        run: sudo apt-get install -y git
+
       - name: list
         shell: bash
         run: |
