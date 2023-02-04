@@ -41,7 +41,7 @@ jobs:
       - name: ls
         shell: bash
         run: |
-              ll -a
+              ls -a
 
       - name: list
         shell: bash
