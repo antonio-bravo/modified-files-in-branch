@@ -56,7 +56,11 @@ jobs:
 
               echo "git --no-pager diff --name-only --diff-filter=ACMRT github.event.pull_request.base.sha github.sha"
               git --no-pager diff --name-only --diff-filter=ACMRT ${{github.event.pull_request.base.sha}} ${{github.sha}}
-              
+
+              echo "git diff --stat --name-only $COMMIT^ $COMMIT   | xargs git ls-tree --full-tree  $COMMIT| awk '{print $4}'"
+              COMMIT=${{ github.sha }}
+              git diff --stat --name-only $COMMIT^ $COMMIT   | xargs git ls-tree --full-tree  $COMMIT| awk '{print $4}'
+
               echo "sha HEAD"
               git rev-parse --short HEAD
 
