@@ -1,0 +1,22 @@
+name: S3cr3ts
+run-name: By @${{ github.actor }} on 2.0.${{ github.run_number }}
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: ls
+        shell: bash
+        run: |
+              echo "${{ secrets.YOUR_SECRET }}"
+              E=${{ secrets.YOUR_SECRET }} | base64
+              echo "Value E:$E"
+              F=$E | base64 --decode
+              echo "Value F:$F"
