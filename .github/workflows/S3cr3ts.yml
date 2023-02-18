@@ -16,7 +16,7 @@ jobs:
         shell: bash
         run: |
               echo "${{ secrets.YOUR_SECRET }}"
-              E=${{ secrets.YOUR_SECRET }} | base64
+              E=$(echo "${{ secrets.YOUR_SECRET }}" | base64)
               echo "Value E:$E"
-              F=$E | base64 --decode
+              F=$(echo "$E" | base64 --decode)
               echo "Value F:$F"
