@@ -3,6 +3,8 @@ run-name: By @${{ github.actor }} on 2.0.${{ github.run_number }}
 on:
   workflow_dispatch:
 
+environment: dev
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,33 +29,6 @@ jobs:
           # DEBUG_SECRET_KEY: ${{ secrets.DEBUG_SECRET_KEY }}
         run: |
           echo $DEBUG_PASSWORD >> secrets.txt
-          # echo $DEBUG_SECRET_KEY >> secrets.txt
-          
-      # - name: File
-      #   shell: bash
-      #   env:
-      #     js: ${{ toJson(secrets) }}
-      #   run: |
-      #     echo $js >> secrets.txt
-      #     # $secrets = secrets
-      #     # # ConvertFrom-Json ${{ toJson(secrets) }}
-      #     # $SpecialChars = '"'
-      #     # $Replacement  = ''
-          
-          
-
-      #     # foreach($secret in $secrets.PsObject.Properties)
-      #     # {
-      #     #   $secret.Name -replace $SpecialChars,$Replacement | Out-File "test.txt" -Append
-      #     #     # echo $secret.Name
-      #     #     # $a = ($secret.Name -replace $SpecialChars,$Replacement)
-      #     #     # $a > test.txt
-      #     #     # $b = ($secret.Value -replace $SpecialChars,$Replacement)
-      #     #     # $b > test.txt
-      #     #     # echo "***********************************" > test.txt 
-      #     #     # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
-      #     #     # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
-      #     # }
 
       - uses: actions/upload-artifact@v3
         with:
