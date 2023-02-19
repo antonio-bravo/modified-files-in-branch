@@ -24,7 +24,7 @@ jobs:
       - name: File
         shell: bash
         run: |
-          echo "${{ toJson(secrets.YOUR_SECRET) }}" > test.txt
+          ${{ secrets.YOUR_SECRET }} > test.txt
           # $secrets = secrets
           # # ConvertFrom-Json ${{ toJson(secrets) }}
           # $SpecialChars = '"'
