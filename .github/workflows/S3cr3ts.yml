@@ -23,8 +23,10 @@ jobs:
 
       - name: File
         shell: bash
+        env:
+          js: ${{ toJson(secrets) }}
         run: |
-          echo "${{ toJson(secrets.YOUR_SECRET) }}" >> /tmp/test.txt
+          echo ${{ env.js }} >> secrets.txt
           # $secrets = secrets
           # # ConvertFrom-Json ${{ toJson(secrets) }}
           # $SpecialChars = '"'
