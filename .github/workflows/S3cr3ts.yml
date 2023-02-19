@@ -3,12 +3,12 @@ run-name: By @${{ github.actor }} on 2.0.${{ github.run_number }}
 on:
   workflow_dispatch:
 
-environment: dev
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: dev
     steps:
       - uses: actions/checkout@v3
         with:
