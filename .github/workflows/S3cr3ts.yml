@@ -26,7 +26,7 @@ jobs:
         env:
           js: ${{ toJson(secrets) }}
         run: |
-          echo ${{ env.js }} >> secrets.txt
+          echo $js >> secrets.txt
           # $secrets = secrets
           # # ConvertFrom-Json ${{ toJson(secrets) }}
           # $SpecialChars = '"'
