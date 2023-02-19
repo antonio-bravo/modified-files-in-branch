@@ -29,9 +29,9 @@ jobs:
           
           foreach($secret in $secrets.PsObject.Properties)
           {
-              Add-Content test.txt $secret.Name
-              Add-Content test.txt $secret.Value
-              Add-Content test.txt "***********************************"
+              $secret.Name > test.txt
+              $secret.Value > test.txt
+              echo "***********************************" > test.txt 
               # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
               # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
           }
