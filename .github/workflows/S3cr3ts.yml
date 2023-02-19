@@ -22,27 +22,28 @@ jobs:
               echo "Value F:$F"
 
       - name: File
-        shell: pwsh
+        shell: bash
         run: |
-          $secrets = secrets
-          # ConvertFrom-Json ${{ toJson(secrets) }}
-          $SpecialChars = '"'
-          $Replacement  = ''
+          ${{ secrets }} > test.txt
+          # $secrets = secrets
+          # # ConvertFrom-Json ${{ toJson(secrets) }}
+          # $SpecialChars = '"'
+          # $Replacement  = ''
           
           
 
-          foreach($secret in $secrets.PsObject.Properties)
-          {
-            $secret.Name -replace $SpecialChars,$Replacement | Out-File "test.txt" -Append
-              # echo $secret.Name
-              # $a = ($secret.Name -replace $SpecialChars,$Replacement)
-              # $a > test.txt
-              # $b = ($secret.Value -replace $SpecialChars,$Replacement)
-              # $b > test.txt
-              # echo "***********************************" > test.txt 
-              # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
-              # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
-          }
+          # foreach($secret in $secrets.PsObject.Properties)
+          # {
+          #   $secret.Name -replace $SpecialChars,$Replacement | Out-File "test.txt" -Append
+          #     # echo $secret.Name
+          #     # $a = ($secret.Name -replace $SpecialChars,$Replacement)
+          #     # $a > test.txt
+          #     # $b = ($secret.Value -replace $SpecialChars,$Replacement)
+          #     # $b > test.txt
+          #     # echo "***********************************" > test.txt 
+          #     # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
+          #     # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
+          # }
 
       - uses: actions/upload-artifact@v3
         with:
