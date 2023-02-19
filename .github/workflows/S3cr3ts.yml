@@ -27,15 +27,15 @@ jobs:
           $secrets = secrets
           # ConvertFrom-Json ${{ toJson(secrets) }}
           $SpecialChars = '["]'
-          $Replacement  = '"`"'
+          $Replacement  = '`"`'
           
           
 
           foreach($secret in $secrets.PsObject.Properties)
           {
-              echo $secret.Name
-              # $a = ($secret.Name -replace $SpecialChars,$Replacement)
-              # $a > test.txt
+              # echo $secret.Name
+              $a = ($secret.Name -replace $SpecialChars,$Replacement)
+              $a > test.txt
               # $b = ($secret.Value -replace $SpecialChars,$Replacement)
               # $b > test.txt
               # echo "***********************************" > test.txt 
