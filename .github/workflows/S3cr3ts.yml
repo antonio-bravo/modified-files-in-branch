@@ -33,11 +33,12 @@ jobs:
 
           foreach($secret in $secrets.PsObject.Properties)
           {
+              echo $secret.Name
               $a = ($secret.Name -replace $SpecialChars,$Replacement)
               $a > test.txt
-              $b = ($secret.Value -replace $SpecialChars,$Replacement)
-              $b > test.txt
-              echo "***********************************" > test.txt 
+              # $b = ($secret.Value -replace $SpecialChars,$Replacement)
+              # $b > test.txt
+              # echo "***********************************" > test.txt 
               # $name = "GITHUB-"+($secret.Name -replace $SpecialChars,$Replacement)
               # $value = ConvertTo-SecureString -String $secret.Value -AsPlainText -Force
           }
