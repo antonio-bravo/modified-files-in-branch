@@ -4,16 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-      type: choice
-        - dev
-        - test
-        - dev,test
+        type: environment
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ environment}}
+    environment: ${{ inputs.environment}}
     steps:
       - uses: actions/checkout@v3
         with:
