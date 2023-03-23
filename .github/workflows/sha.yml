@@ -36,6 +36,7 @@ jobs:
               echo "GITHUB_ENV=${{ env.GITHUB_SHA }}"
               echo "github_event_pull_request_sha=${{ github.event.pull_request.sha }}"
               echo "github_event_pull_request_after=${{ github.event.pull_request.after }}"
+              echo "github_event_after=${{ github.event.after }}"
 
 # github.sha and github.event.pull_request.merge_commit_sha are both context variables in GitHub Actions, but they refer to different things.
 # github.sha refers to the SHA of the commit that triggered the workflow. This can be the SHA of a commit pushed to the repository, the SHA of a tag, or the SHA of a pull request.
