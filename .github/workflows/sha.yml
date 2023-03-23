@@ -31,16 +31,12 @@ jobs:
         run: |
               echo "github_sha=${{ github.sha }}"
               echo "github_event_pull_request_head_sha=${{ github.event.pull_request.head.sha }}"
-              echo "github_event_pull_request_base_sha=${{ github.event.pull_request.base.sha}}"
+              echo "github_event_pull_request_base_sha=${{ github.event.pull_request.base.sha }}"
               echo "github_event_pull_request_merge_commit_sha=${{ github.event.pull_request.merge_commit_sha }}"
               echo "GITHUB_ENV=${{ env.GITHUB_SHA }}"
 
 # github.sha and github.event.pull_request.merge_commit_sha are both context variables in GitHub Actions, but they refer to different things.
-
 # github.sha refers to the SHA of the commit that triggered the workflow. This can be the SHA of a commit pushed to the repository, the SHA of a tag, or the SHA of a pull request.
-
 # github.event.pull_request.merge_commit_sha refers to the SHA of the merge commit that is created when a pull request is merged into the base branch.
-
 # In other words, github.sha is the SHA of the latest commit in the branch or tag that triggered the workflow, while github.event.pull_request.merge_commit_sha is the SHA of the merge commit that resulted from merging a pull request into the base branch.
-
 # If you're running a workflow triggered by a pull request, you can use github.event.pull_request.merge_commit_sha to refer to the commit that resulted from the merge of the pull request. If you're running a workflow triggered by a push to a branch, you can use github.sha to refer to the latest commit in the branch.              
