@@ -44,3 +44,9 @@ jobs:
         env:
           GITHUB_EVENT_PULL_REQUEST: ${{ toJson(github.event.pull_request) }}
         run: echo "$GITHUB_EVENT_PULL_REQUEST"
+
+      - name: Print GitHub event
+        env:
+          GITHUB_EVENT_PULL_REQUEST: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_EVENT_PULL_REQUEST"
+
