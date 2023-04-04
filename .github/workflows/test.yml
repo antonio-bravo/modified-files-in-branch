@@ -29,6 +29,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment:
+      name: environment
       url: https://github.com
 
     steps:
