@@ -29,7 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment:
-      url: https://sonar.maerskdev.net/dashboard?id=ace-baplie-bridge
+      name: production_environment
+      url: https://github.com
 
     steps:
       - uses: actions/checkout@v3
