@@ -65,7 +65,7 @@ runs:
   steps:
 
     - name: Replace tokens
-      uses: cschleiden/replace-tokens@v1.2
+      uses: cschleiden/replace-tokens@v1.3
       with:
         tokenPrefix: ${{ inputs.tokenPrefix }}
         tokenSuffix: ${{ inputs.tokenSufix }}
