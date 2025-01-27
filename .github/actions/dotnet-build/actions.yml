@@ -71,7 +71,7 @@ runs:
         tokenSuffix: ${{ inputs.tokenSufix }}
         files: ${{ inputs.tokenFiles }}
 
-    - uses: actions/setup-dotnet@v3
+    - uses: actions/setup-dotnet@v4
       name: 'Use .Net SDK ${{ inputs.dotNetCoreVersion }}'
       with:
         dotnet-version: ${{ inputs.dotNetCoreVersion }}
