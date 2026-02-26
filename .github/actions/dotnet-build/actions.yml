@@ -113,7 +113,7 @@ runs:
 # find $(git diff --name-only $(git merge-base master HEAD) | cut -f1-3 -d"/" | grep "${{ inputs.workingDirectory}}" | grep -Ev "^*[Tt]est" | sort | uniq ) -type f \( -iname "*.csproj" ! -iname "*Tests*.csproj" \) -print0 | xargs -0 -t -P 10 -I{} sh -c 'file=$1; dotnet pack "$file" --configuration ${{ inputs.buildConfiguration }} -p:PackageVersion=${{ env.BUILD_VERSION }} --no-build --output . ;' xargs-sh {}
     - name: Upload NuGet package back to GitHub Packages
       if: ${{ inputs.isNugetPackage == 'true' }}
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.artifactName }}
         path: ${{ inputs.artifactFiles }}
